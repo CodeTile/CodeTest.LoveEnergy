@@ -46,8 +46,7 @@ Generated\ Files/
 
 # NUnit
 *.VisualState.xml
-TestResult.xml
-nunit-*.xml
+TestResult.xmlnunit-*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -396,6 +395,3 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-
-# Solution ignore 
-[Dd]ata/
