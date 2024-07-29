@@ -1,5 +1,6 @@
 ﻿namespace CodeTest.ThunderWings.Data.Models
 {
+	[GenerateAutoFilter]
 	public class Aircraft
 	{
 		public string? Country { get; set; }
