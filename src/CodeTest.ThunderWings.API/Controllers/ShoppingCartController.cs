@@ -18,7 +18,13 @@ namespace CodeTest.ThunderWings.API.Controllers
 		{
 			logger.LogInformation("CodeTest.ThunderWings.API.Controllers.SalesController.AddToShoppingCart");
 			var result = service.Add(item);
-			return Ok(result);
+
+			if (result.IsSuccess && result.Value != null)
+				return Ok(result.Value);
+			else if (result.IsSuccess)
+				return Ok(result.Message);
+			else
+				return BadRequest(result.Message);
 		}
 
 		[HttpPost("find")]

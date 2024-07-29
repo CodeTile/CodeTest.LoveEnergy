@@ -4,6 +4,7 @@ using AutoFilterer.Extensions;
 
 using CodeTest.ThunderWings.Data.Models;
 using CodeTest.ThunderWings.Data.Paging;
+using CodeTest.ThunderWings.Data.Validatiors;
 
 using Microsoft.Extensions.Configuration;
 
@@ -11,7 +12,7 @@ namespace CodeTest.ThunderWings.Data.Services
 {
 	public interface IShoppingCartService
 	{
-		ShoppingCartItem Add(ShoppingCartItem item);
+		Result<ShoppingCartItem> Add(ShoppingCartItem item);
 
 		PagedList<ShoppingCartItem> Find(ShoppingCartItemFilter filter);
 
@@ -35,8 +36,15 @@ namespace CodeTest.ThunderWings.Data.Services
 
 		private readonly IConfiguration Configuration;
 
-		public ShoppingCartItem Add(ShoppingCartItem item)
+		public Result<ShoppingCartItem> Add(ShoppingCartItem item)
 		{
+			var validator = new ShoppingCartItemValidator();
+			var validationResult = validator.Validate(item);
+			if (!validationResult.IsValid)
+			{
+				string allMessages = validationResult.ToString("~");
+				return Result<ShoppingCartItem>.Failure(allMessages);
+			}
 			var existing = _data.SingleOrDefault(m => m.ShopperId!.Equals(item.ShopperId, StringComparison.CurrentCultureIgnoreCase) && m.Name!.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase));
 			if (existing != null)
 			{
@@ -44,10 +52,9 @@ namespace CodeTest.ThunderWings.Data.Services
 				Remove(existing);
 			}
 
-			//var local = (new List<ShoppingCartItem>() { item }).AsQueryable();
 			_data = _data!.Union([item]);
 			SaveData();
-			return item;
+			return Result<ShoppingCartItem>.Success(item);
 		}
 
 		public PagedList<ShoppingCartItem> Find(ShoppingCartItemFilter filter)

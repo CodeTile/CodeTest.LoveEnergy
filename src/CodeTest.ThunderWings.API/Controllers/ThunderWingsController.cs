@@ -27,7 +27,7 @@ namespace CodeTest.ThunderWings.API.Controllers
 		public IActionResult ResetData()
 		{
 			logger.LogInformation("CodeTest.ThunderWings.API.Controllers.SalesController.ResetData");
-			service.ResetDataFile();
+			service.ResetData();
 			return Ok();
 		}
 	}

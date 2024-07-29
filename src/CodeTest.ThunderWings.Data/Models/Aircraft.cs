@@ -1,6 +1,9 @@
-﻿namespace CodeTest.ThunderWings.Data.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CodeTest.ThunderWings.Data.Models
 {
 	[GenerateAutoFilter]
+	[ExcludeFromCodeCoverage]
 	public class Aircraft
 	{
 		public string? Country { get; set; }

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace CodeTest.ThunderWings.Data.Helpers
 {
+	[ExcludeFromCodeCoverage]
 	internal static partial class Helper
 	{
 		internal static class IO
 		{
 			internal static FileInfo? TryGetFileInfo(string relativePathToSolution)
 			{
-				var rootPath = TryGetSolutionDirectoryInfo().FullName;
+				var rootPath = TryGetSolutionDirectoryInfo()!.FullName;
 				var filepath = relativePathToSolution.Replace("{{sln}}", rootPath);
 
 				return new FileInfo(filepath);

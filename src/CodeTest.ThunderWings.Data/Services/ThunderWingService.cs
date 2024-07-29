@@ -14,7 +14,7 @@ namespace CodeTest.ThunderWings.Data.Services
 	{
 		PagedList<Aircraft> Find(AircraftFilter aircraftFilter);
 
-		void ResetDataFile();
+		void ResetData();
 	}
 
 	public class ThunderWingService(IConfiguration configuration) : IThunderWingService
@@ -39,7 +39,7 @@ namespace CodeTest.ThunderWings.Data.Services
 		{
 			var workingCopy = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuration["Files:Active"]!));
 			if (!workingCopy.Exists)
-				ResetDataFile();
+				ResetData();
 			var fileContents = File.ReadAllText(workingCopy.FullName);
 			_data = (JsonSerializer.Deserialize<IEnumerable<Aircraft>>(fileContents, _serialisationOptions)
 				?? []
@@ -47,9 +47,9 @@ namespace CodeTest.ThunderWings.Data.Services
 		}
 
 		/// <summary>
-		/// Create a new copy of the data file.
+		/// Create a new copy of the data file. This would not be included in production code.
 		/// </summary>
-		public void ResetDataFile()
+		public void ResetData()
 		{
 			var originalDataFile = Helper.IO.TryGetFileInfo(configuration["Files:Original"]!);
 			var fi = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuration["Files:Active"]!));

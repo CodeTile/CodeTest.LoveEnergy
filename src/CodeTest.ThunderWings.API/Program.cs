@@ -1,9 +1,10 @@
-using CodeTest.ThunderWings.Data.StartUp;
 using AutoFilterer.Swagger;
+
+using CodeTest.ThunderWings.Data.StartUp;
 
 namespace CodeTest.ThunderWings
 {
-	public class Program
+	public static class Program
 	{
 		public static void Main(string[] args)
 		{

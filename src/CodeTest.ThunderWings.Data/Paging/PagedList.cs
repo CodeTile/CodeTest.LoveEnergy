@@ -1,4 +1,6 @@
-﻿namespace CodeTest.ThunderWings.Data.Paging
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CodeTest.ThunderWings.Data.Paging
 {
 	public interface IPagedList
 	{
@@ -11,6 +13,7 @@
 	/// <summary>
 	/// https://bsavindu1998.medium.com/using-a-custom-pagelist-class-for-generic-pagination-in-net-core-2403a14c0c15
 	/// </summary>
+	[ExcludeFromCodeCoverage]
 	public class PagedList<T> : List<T>, IPagedList
 	{
 		public PagedList()
