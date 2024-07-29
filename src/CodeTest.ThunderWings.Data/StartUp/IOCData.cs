@@ -20,6 +20,7 @@ namespace CodeTest.ThunderWings.Data.StartUp
 			services.AddAutoMapper(typeof(MappingProfile));
 			//Add Transient services to the container.
 			services.AddTransient<IThunderWingService, ThunderWingService>();
+			services.AddTransient<IShoppingCartService, ShoppingCartService>();
 			//Add Repositories
 			//
 			//

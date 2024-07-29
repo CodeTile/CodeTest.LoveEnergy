@@ -1,4 +1,5 @@
 using CodeTest.ThunderWings.Data.StartUp;
+using AutoFilterer.Swagger;
 
 namespace CodeTest.ThunderWings
 {
@@ -15,7 +16,7 @@ namespace CodeTest.ThunderWings
 			new IocData().ConfigureServices(builder.Services);
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.Services.AddSwaggerGen(m => { m.UseAutoFiltererParameters(); });
 
 			var app = builder.Build();
 

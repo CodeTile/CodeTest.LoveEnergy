@@ -1,7 +1,10 @@
 ﻿using System.Text.Json;
 
+using AutoFilterer.Extensions;
+
 using CodeTest.ThunderWings.Data.Helpers;
 using CodeTest.ThunderWings.Data.Models;
+using CodeTest.ThunderWings.Data.Paging;
 
 using Microsoft.Extensions.Configuration;
 
@@ -9,24 +12,27 @@ namespace CodeTest.ThunderWings.Data.Services
 {
 	public interface IThunderWingService
 	{
-		IQueryable<Aircraft> FindAll();
+		PagedList<Aircraft> Find(AircraftFilter aircraftFilter);
+
+		void ResetDataFile();
 	}
 
 	public class ThunderWingService(IConfiguration configuration) : IThunderWingService
 	{
 		internal IQueryable<Aircraft>? _data = null;
 
-		private JsonSerializerOptions _serialisationOptions = new()
+		private readonly JsonSerializerOptions _serialisationOptions = new()
 		{
 			PropertyNameCaseInsensitive = true
 		};
 
-		public IQueryable<Aircraft> FindAll()
+		public PagedList<Aircraft> Find(AircraftFilter aircraftFilter)
 		{
-			ResetDataFile();
 			if (_data == null)
 				LoadData();
-			return _data ?? Enumerable.Empty<Aircraft>().AsQueryable();
+			aircraftFilter.Clean();
+			var data = _data.ApplyFilterWithoutPagination(aircraftFilter);
+			return PagedList<Aircraft>.Create(data, aircraftFilter.Page, aircraftFilter.PerPage);
 		}
 
 		public void LoadData()
@@ -35,7 +41,9 @@ namespace CodeTest.ThunderWings.Data.Services
 			if (!workingCopy.Exists)
 				ResetDataFile();
 			var fileContents = File.ReadAllText(workingCopy.FullName);
-			_data = JsonSerializer.Deserialize<IEnumerable<Aircraft>>(fileContents, _serialisationOptions)!.AsQueryable();
+			_data = (JsonSerializer.Deserialize<IEnumerable<Aircraft>>(fileContents, _serialisationOptions)
+				?? []
+				).AsQueryable();
 		}
 
 		/// <summary>
@@ -46,8 +54,9 @@ namespace CodeTest.ThunderWings.Data.Services
 			var originalDataFile = Helper.IO.TryGetFileInfo(configuration["Files:Original"]!);
 			var fi = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuration["Files:Active"]!));
 
-			if (!fi.Directory!.Exists)
-				fi.Directory.Create();
+			if (fi.Directory!.Exists)
+				fi.Directory.Delete(true);
+			fi.Directory.Create();
 
 			originalDataFile!.CopyTo(fi.FullName, true);
 		}
