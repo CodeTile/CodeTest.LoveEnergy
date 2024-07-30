@@ -5,13 +5,15 @@
 	/// </summary>
 	public partial class ShoppingCartItemFilter
 	{
+		private const string WordString = "string";
+
 		public void Clean()
 		{
-			if (Sort == "string")
+			if (Sort == WordString)
 				Sort = string.Empty;
-			if (ShopperId == "string")
+			if (ShopperId == WordString)
 				ShopperId = string.Empty;
-			if (Name == "string")
+			if (Name == WordString)
 				Name = string.Empty;
 
 			if (Page < 1)

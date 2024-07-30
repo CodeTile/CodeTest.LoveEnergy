@@ -5,17 +5,19 @@
 	/// </summary>
 	public partial class AircraftFilter
 	{
+		private const string WordString = "string";
+
 		public void Clean()
 		{
-			if (Sort == "string")
+			if (Sort == WordString)
 				Sort = string.Empty;
-			if (Country == "string")
+			if (Country == WordString)
 				Country = string.Empty;
-			if (Manufacturer == "string")
+			if (Manufacturer == WordString)
 				Manufacturer = string.Empty;
-			if (Name == "string")
+			if (Name == WordString)
 				Name = string.Empty;
-			if (Role == "string")
+			if (Role == WordString)
 				Role = string.Empty;
 			if (Page < 1)
 				Page = 1;
