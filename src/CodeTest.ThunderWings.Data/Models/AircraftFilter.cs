@@ -23,14 +23,20 @@
 				Page = 1;
 			if (PerPage < 1)
 				PerPage = 50;
-			if (Price.Min < 0)
-				Price.Min = 0;
-			if (Price.Max < 1)
-				Price.Max = Int32.MaxValue;
-			if (TopSpeed.Min < 0)
-				TopSpeed.Min = 0;
-			if (TopSpeed.Max < 1)
-				TopSpeed.Max = Int32.MaxValue;
+			if (Price != null)
+			{
+				if (Price.Min < 0)
+					Price.Min = 0;
+				if (Price.Max < 1)
+					Price.Max = Int32.MaxValue;
+			}
+			if (TopSpeed != null)
+			{
+				if (TopSpeed.Min < 0)
+					TopSpeed.Min = 0;
+				if (TopSpeed.Max < 1)
+					TopSpeed.Max = Int32.MaxValue;
+			}
 		}
 	}
 }
