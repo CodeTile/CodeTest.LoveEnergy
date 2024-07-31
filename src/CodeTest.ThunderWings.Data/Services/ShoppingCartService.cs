@@ -21,9 +21,10 @@ namespace CodeTest.ThunderWings.Data.Services
 
 	public class ShoppingCartService : IShoppingCartService
 	{
-		public ShoppingCartService(IConfiguration configuration)
+		public ShoppingCartService(IConfiguration configuration, IThunderWingService thunderWingService)
 		{
 			this.Configuration = configuration;
+			this._thunderWingService = thunderWingService;
 			LoadData();
 		}
 
@@ -34,6 +35,7 @@ namespace CodeTest.ThunderWings.Data.Services
 			PropertyNameCaseInsensitive = true
 		};
 
+		private readonly IThunderWingService _thunderWingService;
 		private readonly IConfiguration Configuration;
 
 		public Result<ShoppingCartItem> Add(ShoppingCartItem item)
@@ -45,6 +47,11 @@ namespace CodeTest.ThunderWings.Data.Services
 				string allMessages = validationResult.ToString("~");
 				return Result<ShoppingCartItem>.Failure(allMessages);
 			}
+			//Check if plane exists in inventory
+			var aircraft = _thunderWingService.Find(new AircraftFilter() { Name = item.Name });
+			if (aircraft == null || aircraft.Count == 0)
+				return Result<ShoppingCartItem>.Failure($"The aircraft '{item.Name}' is not available!");
+
 			var existing = _data.SingleOrDefault(m => m.ShopperId!.Equals(item.ShopperId, StringComparison.CurrentCultureIgnoreCase) && m.Name!.Equals(item.Name, StringComparison.CurrentCultureIgnoreCase));
 			if (existing != null)
 			{
