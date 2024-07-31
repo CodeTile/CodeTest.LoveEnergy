@@ -10,12 +10,14 @@ namespace CodeTest.ThunderWings.Data.Tests.Services
 	public class ThunderWingServiceTests
 	{
 		[TestMethod]
-		public void Find01()
+		public void FindDefault()
 		{
 			// arrange
 			var expected = AircraftTestData.Aircraft09.AsQueryable();
-			var uot = new ThunderWingService(null);
-			uot._data = AircraftTestData.Aircraft09.AsQueryable();
+			var uot = new ThunderWingService(null)
+			{
+				_data = AircraftTestData.Aircraft09.AsQueryable()
+			};
 			var filter = new AircraftFilter();
 			//act
 			var actual = uot.Find(filter);
@@ -34,8 +36,10 @@ namespace CodeTest.ThunderWings.Data.Tests.Services
 			var expected = AircraftTestData.Aircraft09
 							.Where(m => m.TopSpeed >= 1500)
 							.AsQueryable();
-			var uot = new ThunderWingService(null);
-			uot._data = AircraftTestData.Aircraft09.AsQueryable();
+			var uot = new ThunderWingService(null)
+			{
+				_data = AircraftTestData.Aircraft09.AsQueryable()
+			};
 			var filter = new AircraftFilter
 			{
 				TopSpeed = new()

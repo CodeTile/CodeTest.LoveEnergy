@@ -21,10 +21,13 @@
 			if (PerPage < 1)
 				PerPage = 50;
 
-			if (Quantity.Min < 0)
-				Quantity.Min = 0;
-			if (Quantity.Max < 1)
-				Quantity.Max = Int32.MaxValue;
+			if (Quantity != null)
+			{
+				if (Quantity.Min < 0)
+					Quantity.Min = 0;
+				if (Quantity.Max < 1)
+					Quantity.Max = Int32.MaxValue;
+			}
 		}
 	}
 }

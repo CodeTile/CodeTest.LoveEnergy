@@ -7,12 +7,12 @@ namespace CodeTest.ThunderWings.Data.Tests.TestData
 		public static List<Aircraft> Aircraft09 =
 		[
 			new () {
-		Name="F-22 Raptor",
-		Manufacturer="Lockheed Martin",
-		Country="United States of America",
-		Role="Stealth air superiority fighter",
-		TopSpeed=1498,
-		Price=150000000
+					Name="F-22 Raptor",
+					Manufacturer="Lockheed Martin",
+					Country="United States of America",
+					Role="Stealth air superiority fighter",
+					TopSpeed=1498,
+					Price=150000000
 	},
 	new () {
 		Name="F-35 Lightning II",

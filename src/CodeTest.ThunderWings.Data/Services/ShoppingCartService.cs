@@ -101,6 +101,8 @@ namespace CodeTest.ThunderWings.Data.Services
 		{
 			var ShoppingCartFileInfo = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Configuration["Files:ShoppingCart"]!));
 			var jsonString = JsonSerializer.Serialize(_data, _serialisationOptions);
+			if (!ShoppingCartFileInfo.Directory!.Exists)
+				ShoppingCartFileInfo.Directory.Create();
 			File.WriteAllText(ShoppingCartFileInfo.FullName, jsonString);
 		}
 	}
